@@ -90,8 +90,8 @@ project/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/your-username/bank-system.git
-cd bank-system
+git clone https://github.com/RayanShaiaa-cmd/Bank-System-GUI-Python-.git
+cd "Bank System GUI"
 ```
 
 ### 2. Install Dependencies
