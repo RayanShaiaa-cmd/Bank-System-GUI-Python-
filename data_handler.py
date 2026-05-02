@@ -8,12 +8,21 @@ def load_data():
     if not os.path.exists("data"):
         os.mkdir("data")
 
-    if not os.path.exists(FILE_PATH):
+    if not os.path.exists(FILE_PATH) or os.path.getsize(FILE_PATH) == 0:
         return pd.DataFrame(
             columns=["Name", "Password", "Account type", "Created date", "Balance"]
         )
 
-    return pd.read_csv(FILE_PATH)
+    try:
+        return pd.read_csv(
+            FILE_PATH,
+            dtype={"Password": str},
+            keep_default_na=False,
+        )
+    except pd.errors.EmptyDataError:
+        return pd.DataFrame(
+            columns=["Name", "Password", "Account type", "Created date", "Balance"]
+        )
 
 
 def save_data(df):
@@ -56,9 +65,7 @@ def update_info(old_name, password, new_name, new_password):
 def login(name, password):
     df = load_data()
 
-    user = df[
-        (df["Name"] == name) & (df["Password"].astype(str) == str(password))
-    ]
+    user = df[(df["Name"] == name) & (df["Password"].astype(str) == str(password))]
 
     if user.empty:
         return False, None
